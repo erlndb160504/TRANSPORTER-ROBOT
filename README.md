@@ -11,7 +11,6 @@ Robot Transporter adalah robot yang bertujuan untuk mengangkut barang dari satu 
 - **Gripper**: Mechanical Claw Grabber Gripper Steering Gear Arm 
 - **Daya**: Baterai lithium-ion 12V 10Ah
 
-## Instalasi dan Penggunaan
 ### Persyaratan
 - Arduino IDE
 - PlatformIO (opsional)
