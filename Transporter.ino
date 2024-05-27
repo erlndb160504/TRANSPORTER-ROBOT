@@ -6,26 +6,27 @@
 #endif
 
 BluetoothSerial SerialBT;
-Servo gripperServo;
+Servo gripper;
 Servo bracketServo;
   
-  const int motorA1      = 32;  
-  const int motorA2      = 33; 
+  const int motorA1 = 32;  
+  const int motorA2 = 33; 
  
-  const int motorB1      = 26; 
-  const int motorB2      = 27; 
+  const int motorB1 = 17; 
+  const int motorB2 = 16; 
 
-  
+  int gripperPin = 15; 
+
   int state;
-  int vSpeed=200;     // Default speed, from 0 to 255
+  int vSpeed=210; // Default speed, from 0 to 255
 
   //Posisi Griper Open and Close dalam derajat
-  const int gripperOpenPos = 100;   
-  const int gripperClosePos = 30;
+  // const int gripperOpenPos = 100;   
+  // const int gripperClosePos = 30;
 
   //Posisi Bracket Up and Down dalam derajat
-   const int bracketUp = 95;
-   const int bracketDown = 30 ;
+   const int bracketUp = 65;
+   const int bracketDown = 0 ;
 
 void setup() {
     // Set pins as outputs:
@@ -33,7 +34,9 @@ void setup() {
     pinMode(motorA2, OUTPUT);
     pinMode(motorB1, OUTPUT);
     pinMode(motorB2, OUTPUT);
-
+    
+    gripper.attach(gripperPin);
+    bracketServo.attach(23);
     // ledcAttachPin(motorAspeed, 0);   
     // ledcAttachPin(motorBspeed, 1);   
     
@@ -42,8 +45,7 @@ void setup() {
     // Initialize serial communication at 9600 bits per second:
     Serial.begin(9600);
 
-    gripperServo.attach(1);
-    bracketServo.attach(23);
+    
 }
  
 void loop() {
@@ -65,7 +67,7 @@ void loop() {
   vSpeed = 180;
   break;
   case 3:
-  vSpeed = 200;
+  vSpeed = 210;
   break;
   case 4:
   vSpeed = 255;
@@ -73,111 +75,130 @@ void loop() {
 
   case 83:
   /************************Stop*****************************/
-  digitalWrite(motorA1, 0);  digitalWrite(motorA2, 0); 
-  digitalWrite(motorB1, 0);  digitalWrite(motorB2, 0);
+  analogWrite(motorA1, 0); analogWrite(motorA2, 0); 
+  analogWrite(motorB1, 0); analogWrite(motorB2, 0);
   break;
 
   case 70:
   /***********************Forward****************************/
-  digitalWrite (motorA1,1);
-  digitalWrite(motorA2,0);                       
+  analogWrite (motorA1,210);
+  analogWrite(motorA2,0);                       
 
-  digitalWrite (motorB1,1);
-  digitalWrite(motorB2,0);
+  analogWrite (motorB1,210);
+  analogWrite(motorB2,0);
 
-  // digitalWrite (motorAspeed, vSpeed);
-  // digitalWrite (motorBspeed, vSpeed);
+  // analogWrite (motorAspeed, vSpeed);
+  // analogWrite (motorBspeed, vSpeed);
   break;
 
   case 73:
   /**********************Forward Left************************/
-  digitalWrite (motorA1,0);
-  digitalWrite(motorA2,0);                       
+  analogWrite (motorA1,0);
+  analogWrite(motorA2,0);                       
 
-  digitalWrite (motorB1,1);
-  digitalWrite(motorB2,0);
+  analogWrite (motorB1,210);
+  analogWrite(motorB2,0);
 
   break;
 
   case 71:
   /**********************Forward Right************************/
-  digitalWrite (motorA1,1);
-  digitalWrite(motorA2,0);                       
+  analogWrite (motorA1,210);
+  analogWrite(motorA2,0);                       
   
-  digitalWrite (motorB1,0);
-  digitalWrite(motorB2,0);
+  analogWrite (motorB1,0);
+  analogWrite(motorB2,0);
 
   break;
 
   case 66:
   /***********************Backward****************************/
-  digitalWrite (motorA1,0);
-  digitalWrite(motorA2,1);                       
+  analogWrite (motorA1,0);
+  analogWrite(motorA2,210);                       
   
-  digitalWrite (motorB1,0);
-  digitalWrite(motorB2,1);
+  analogWrite (motorB1,0);
+  analogWrite(motorB2,210);
 
-  // digitalWrite (motorAspeed, vSpeed);
-  // digitalWrite (motorBspeed, vSpeed);
+  // analogWrite (motorAspeed, vSpeed);
+  // analogWrite (motorBspeed, vSpeed);
   break;
 
   case 74:
   /**********************Backward Left************************/
-  digitalWrite (motorA1,0);
-  digitalWrite(motorA2,0);                       
+  analogWrite (motorA1,0);
+  analogWrite(motorA2,0);                       
   
-  digitalWrite (motorB1,0);
-  digitalWrite(motorB2,1);
+  analogWrite (motorB1,0);
+  analogWrite(motorB2,210);
   break;
 
   case 72:
   /**********************Backward Right************************/
-  digitalWrite (motorA1,0);
-  digitalWrite(motorA2,1);                       
+  analogWrite (motorA1,0);
+  analogWrite(motorA2,210);                       
   
-  digitalWrite (motorB1,0);
-  digitalWrite(motorB2,0);
+  analogWrite (motorB1,0);
+  analogWrite(motorB2,0);
 
   break;
 
   case 76:
   /***************************Left*****************************/
-  digitalWrite (motorA2,0);
-  digitalWrite(motorA1,1);                       
+  analogWrite (motorA2,0);
+  analogWrite(motorA1,210);                       
   
-  digitalWrite (motorB2,1);
-  digitalWrite(motorB1,0);
+  analogWrite (motorB2,210);
+  analogWrite(motorB1,0);
 
   break;
 
   case 82:
   /***************************Right*****************************/
-  digitalWrite (motorA2,1);
-  digitalWrite(motorA1,0);                       
+  analogWrite (motorA2,210);
+  analogWrite(motorA1,0);                       
   
-  digitalWrite (motorB2,0);
-  digitalWrite(motorB1,1);
+  analogWrite (motorB2,0);
+  analogWrite(motorB1,210);
  
   break;
 
-  case 'V' : 
-  gripperServo.write(gripperOpenPos);   
-  break;
+  // case 'V' : 
+  // gripper.write(gripperOpenPos);   
+  // break;
   
-  case 'v':
-  // Menutup gripper
-  //if (gripperOpenPos <= 120) {
-    //gripperOpenPos -= gripperCloseIncrement;
-    //gripperServo.write (gripperOpenPos);
-  //}
-  gripperServo.write(gripperClosePos);
+  // case 'v':
+  // gripper.write(gripperClosePos);
+  // break;
+  
+  case '1':
+  gripper.write(30);
   break;
 
-  case 'U':
+  case '2':
+  gripper.write(45);
+  break;
+  
+  case '3':
+  gripper.write(60);
+  break;
+  
+  case '4':
+  gripper.write(75);
+  break;
+  
+  // //case '5':
+  // //gripper.write(90);
+  // break;
+  
+  // case '6':
+  // gripper.write(105);
+  // break;
+
+  case 'W':
   bracketServo.write(bracketUp);
   break;
 
-  case 'u':
+  case 'w':
   bracketServo.write(bracketDown);
   break;
   }
